@@ -74,9 +74,9 @@ class VStreamMetaModel:
         if getattr(config, 'mm_use_4_vision_tokens', False):
             self.mm_input_dim = self.mm_input_dim * 4
 
-        if hasattr(config, "mm_vision_tower"):
-            self.vision_tower = build_vision_tower(config, delay_load=True)
-            self.mm_projector = build_vision_projector(config, self.mm_input_dim)
+        #if hasattr(config, "mm_vision_tower"):
+        self.vision_tower = build_vision_tower(config, delay_load=True)
+        self.mm_projector = build_vision_projector(config, self.mm_input_dim)
 
         compress_Turing_hidden_dim = getattr(self.config, "compress_Turing_hidden_dim", 32)
         self.attention_model = NeuralTuringMachine(self.mm_input_dim, compress_Turing_hidden_dim)

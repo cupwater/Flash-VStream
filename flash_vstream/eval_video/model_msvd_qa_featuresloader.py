@@ -60,7 +60,7 @@ class CustomDataset(Dataset):
         sample = self.questions[index]
         video_name = sample['video_id']
         try:
-            video_path = os.path.join(self.video_dir, video_name + '.safetensors')
+            video_path = os.path.join(self.video_dir, str(video_name) + '.safetensors')
             video_tensor = load_file(video_path)['feature']
         except Exception as e:
             print(f'Dataset Exception: {e}, randomly choose one.')

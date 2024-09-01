@@ -1,8 +1,8 @@
 # Based on https://github.com/haotian-liu/LLaVA.
 
 import argparse
-from llama_vstream.model.builder import load_pretrained_model
-from llama_vstream.mm_utils import get_model_name_from_path
+from flash_vstream.model.builder import load_pretrained_model
+from flash_vstream.mm_utils import get_model_name_from_path
 
 
 def merge_lora(args):

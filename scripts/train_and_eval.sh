@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # set up python environment
-conda activate vstream
 
 # set important configurations
 type=weighted_kmeans
@@ -22,12 +21,12 @@ date_device="$(date +%m%d)_${ngpus}${gputype}"
 echo start pretrain
 deepspeed --master_addr 127.0.0.1 --master_port 12345 --include localhost:${gpus_list} flash_vstream/train/train_mem.py \
     --deepspeed ./scripts/zero0.json \
-    --model_name_or_path ./ckpt/vicuna-7b-v1.5 \
+    --model_name_or_path /mnt/hhd/LLM/vicuna-7b-v1.5 \
     --version plain \
     --data_path ./data/pretrain/llava_558k_with_webvid.json \
     --image_folder ./data/pretrain/image_features \
     --video_folder ./data/pretrain/video_features \
-    --vision_tower ./ckpt/clip-vit-large-patch14 \
+    --vision_tower /mnt/hhd/LLM/clip-vit-large-patch14 \
     --mm_projector_type mlp2x_gelu \
     --tune_mm_mlp_adapter True \
     --mm_vision_select_layer -2 \
@@ -65,6 +64,10 @@ deepspeed --master_addr 127.0.0.1 --master_port 12345 --include localhost:${gpus
     --lazy_preprocess True \
     --report_to tensorboard \
     >> ${date_device}_vstream-7b-pretrain-${type}${cur_length}*${cur_size}-${long_length}*${long_size}-${Turing_length}*${Turing_size}-${suffix}.log 2>&1 
+
+
+
+
 
 echo start finetune
 deepspeed --master_addr 127.0.2.1 --master_port 12345 --include localhost:${gpus_list} flash_vstream/train/train_mem.py \
